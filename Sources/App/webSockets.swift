@@ -19,6 +19,8 @@ func webSockets(_ app: Application) throws {
             print("LA CONEXIÓN FUE AÑADIDA")
         }
         
-        webSocketController.webSocketUpdated(ws, on: req)
+        webSocketController.onUpdated(ws, on: req)
+        
+        webSocketController.onClosed(ws, on: req)
     }
 }

@@ -36,7 +36,7 @@ final class WebSocketController {
 }
 
 extension WebSocketController {
-    func webSocketUpdated(_ ws: WebSocket, on req: Request) {
+    func onUpdated(_ ws: WebSocket, on req: Request) {
         ws.onBinary { ws, byteBuffer in
             // Handle incoming binary data
             do {
@@ -57,6 +57,19 @@ extension WebSocketController {
                 self.sendToAll(byteBuffer)
             } catch {
                 print("Error al convertir desde Data: \(error)")
+            }
+        }
+    }
+    
+    func onClosed(_ ws: WebSocket, on req: Request) {
+        ws.onClose.whenComplete { result in
+            switch result {
+                case .success():
+                    print("---")
+                    print("LA CONEXIÓN SE HA CERRADO")
+                case .failure(let error):
+                    print("---")
+                    print("LA CONEXIÓN NO SE HA CERRADO. ERROR: \(error)")
             }
         }
     }
