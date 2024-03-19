@@ -81,7 +81,7 @@
 <a name="licencia"></a>
 ## ©️ Licencia
 
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](https://github.com/salvaMsanchez/Vapor-Servers/blob/main/LICENSE.md) para más detalles.
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](https://github.com/salvaMsanchez/Vapor-WebSocketAPI/blob/main/LICENSE.md) para más detalles.
 
 ---
 
