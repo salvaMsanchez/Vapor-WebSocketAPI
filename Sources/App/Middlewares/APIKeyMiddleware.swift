@@ -9,13 +9,10 @@ import Vapor
 
 struct APIKeyMiddleware: AsyncMiddleware {
     func respond(to request: Vapor.Request, chainingTo next: Vapor.AsyncResponder) async throws -> Vapor.Response {
-        
-        // Get API Key from headers
         guard let apiKey = request.headers.first(name: "Websockets-ApiKey") else {
             throw Abort(.badRequest, reason: "Websockets-ApiKey header is missing")
         }
         
-        // Get API Key from environment
         guard let envApiKey = Environment.process.API_KEY else {
             throw Abort(.failedDependency)
         }

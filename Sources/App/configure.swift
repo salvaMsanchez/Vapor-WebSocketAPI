@@ -14,6 +14,9 @@ public func configure(_ app: Application) async throws {
     // Public folder
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
     
+    // Max upload file size
+    app.routes.defaultMaxBodySize = "10mb"
+    
     // Configure DB
     try app.databases.use(.postgres(url: dbURL), as: .psql)
 

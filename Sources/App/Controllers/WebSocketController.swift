@@ -38,7 +38,6 @@ final class WebSocketController {
 extension WebSocketController {
     func onUpdated(_ ws: WebSocket, on req: Request) {
         ws.onBinary { ws, byteBuffer in
-            // Handle incoming binary data
             do {
                 let decoder = JSONDecoder()
                 let decodedData = try decoder.decode(Message.self, from: byteBuffer)
@@ -49,11 +48,10 @@ extension WebSocketController {
 //                print("MESSAGE: \(decodedData.message)")
 //                print("TIMESTAMP: \(decodedData.airedAt)")
 //                print("---")
-                
+
                 // Save on DB
                 try await decodedData.create(on: req.db)
-                
-                // Send the received data back to the client
+
                 self.sendToAll(byteBuffer)
             } catch {
                 print("Error al convertir desde Data: \(error)")
