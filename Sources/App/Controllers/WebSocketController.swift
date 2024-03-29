@@ -60,11 +60,12 @@ extension WebSocketController {
     }
     
     func onClosed(_ ws: WebSocket, on req: Request) {
-        ws.onClose.whenComplete { result in
+        ws.onClose.whenComplete { [weak self] result in
             switch result {
                 case .success():
                     print("---")
                     print("LA CONEXIÓN SE HA CERRADO")
+                    self?.removeConnection(ws)
                 case .failure(let error):
                     print("---")
                     print("LA CONEXIÓN NO SE HA CERRADO. ERROR: \(error)")
