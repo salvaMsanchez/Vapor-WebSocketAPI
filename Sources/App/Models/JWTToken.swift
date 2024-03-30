@@ -57,7 +57,7 @@ extension JWTToken {
     static func generateToken(userID: UUID) -> JWTToken {
         let now = Date.now
         
-        var expDate = now.addingTimeInterval(Constants.accessTokenLifetime)
+        let expDate = now.addingTimeInterval(Constants.accessTokenLifetime)
         let bundleID = Environment.process.APP_BUNDLE_ID!
         let user = userID.uuidString
         
