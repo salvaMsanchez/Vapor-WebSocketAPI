@@ -10,7 +10,9 @@ import Fluent
 
 struct SearchController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        routes.get("search", use: search)
+        routes.group(JWTToken.authenticator(), JWTToken.guardMiddleware()) { builder in
+            builder.get("search", use: search)
+        }
     }
 }
 

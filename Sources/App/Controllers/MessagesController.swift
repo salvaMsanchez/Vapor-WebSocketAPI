@@ -10,8 +10,10 @@ import Fluent
 
 struct MessagesController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        routes.get("messages", use: allMessages)
-        routes.post("upload", use: upload)
+        routes.group(JWTToken.authenticator(), JWTToken.guardMiddleware()) { builder in
+            builder.get("messages", use: allMessages)
+            builder.post("upload", use: upload)
+        }
     }
 }
 
