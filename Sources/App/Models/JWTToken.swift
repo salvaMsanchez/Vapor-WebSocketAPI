@@ -10,12 +10,10 @@ import JWT
 
 struct Constants {
     static let accessTokenLifetime: Double = 60 * 30 // 30 min
-    static let refreshTokenLifetime: Double = 60 * 60 * 24 * 7 // 1 week
 }
 
 enum JWTTokenType: String, Codable {
     case access
-    case refresh
 }
 
 struct JWTToken: Content, JWTPayload, Authenticatable {
@@ -41,7 +39,7 @@ struct JWTToken: Content, JWTPayload, Authenticatable {
         }
         
         // Validate JWT type
-        guard type == .access || type == .refresh else {
+        guard type == .access else {
             throw JWTError.claimVerificationFailure(name: "type", reason: "JWT type is invalid")
         }
     }
@@ -51,13 +49,12 @@ struct JWTToken: Content, JWTPayload, Authenticatable {
 extension JWTToken {
     struct Public: Content {
         let accessToken: String
-        let refreshToken: String
     }
 }
 
 // MARK: - Auxiliar
 extension JWTToken {
-    static func generateToken(userID: UUID) -> (accessToken: JWTToken, refreshToken: JWTToken) {
+    static func generateToken(userID: UUID) -> JWTToken {
         let now = Date.now
         
         var expDate = now.addingTimeInterval(Constants.accessTokenLifetime)
@@ -66,9 +63,6 @@ extension JWTToken {
         
         let accessToken = JWTToken(exp: .init(value: expDate), iss: .init(value: bundleID), sub: .init(value: user), type: .access)
         
-        expDate = now.addingTimeInterval(Constants.refreshTokenLifetime)
-        let refreshToken = JWTToken(exp: .init(value: expDate), iss: .init(value: bundleID), sub: .init(value: user), type: .refresh)
-        
-        return (accessToken, refreshToken)
+        return accessToken
     }
 }
