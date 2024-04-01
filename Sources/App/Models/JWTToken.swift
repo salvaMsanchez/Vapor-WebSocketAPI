@@ -49,6 +49,7 @@ struct JWTToken: Content, JWTPayload, Authenticatable {
 extension JWTToken {
     struct Public: Content {
         let accessToken: String
+        let userName: String
     }
 }
 
