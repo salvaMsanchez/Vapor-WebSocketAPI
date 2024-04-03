@@ -8,6 +8,12 @@
 import Vapor
 import Fluent
 
+#warning("Quizá sea bueno cambiar y crear PhotoController para tener agrupados los endpoints de photo/upload y photo/profile")
+enum PhotoType: String {
+    case profile
+    case wall
+}
+
 struct MessagesController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         routes.group(JWTToken.authenticator(), JWTToken.guardMiddleware()) { builder in
@@ -30,19 +36,43 @@ extension MessagesController {
             throw Abort(.badRequest)
         }
         
-        let imageData = Data(byteBuffer.readableBytesView)
+        guard let photoType: String = req.query["type"] else {
+            throw Abort(.badRequest)
+        }
         
-        let directory = DirectoryConfiguration.detect()
-        let publicDirectory = directory.workingDirectory + "Public/"
-        
-        let imageName = UUID().uuidString + ".jpg"
-        
-        let fullImagePath = publicDirectory + imageName
-        
-        FileManager.default.createFile(atPath: fullImagePath, contents: imageData, attributes: nil)
-        
-        let publicImagePath = fullImagePath.components(separatedBy: "Public")[1]
-        
-        return publicImagePath
+        switch photoType {
+            case PhotoType.profile.rawValue:
+                let imageData = Data(byteBuffer.readableBytesView)
+                
+                let directory = DirectoryConfiguration.detect()
+                let publicDirectory = directory.workingDirectory + "Public/Profile/"
+                
+                let imageName = UUID().uuidString + ".jpg"
+                
+                let fullImagePath = publicDirectory + imageName
+                
+                FileManager.default.createFile(atPath: fullImagePath, contents: imageData, attributes: nil)
+                
+                let publicImagePath = fullImagePath.components(separatedBy: "Public")[1]
+                
+                return publicImagePath
+            case PhotoType.wall.rawValue:
+                let imageData = Data(byteBuffer.readableBytesView)
+                
+                let directory = DirectoryConfiguration.detect()
+                let publicDirectory = directory.workingDirectory + "Public/Wall/"
+                
+                let imageName = UUID().uuidString + ".jpg"
+                
+                let fullImagePath = publicDirectory + imageName
+                
+                FileManager.default.createFile(atPath: fullImagePath, contents: imageData, attributes: nil)
+                
+                let publicImagePath = fullImagePath.components(separatedBy: "Public")[1]
+                
+                return publicImagePath
+            default:
+                return ""
+        }
     }
 }

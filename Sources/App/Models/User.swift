@@ -19,6 +19,9 @@ final class User: Model {
     @Timestamp(key: "created_at", on: .create, format: .iso8601)
     var createdAt: Date?
     
+    @Field(key: "image")
+    var image: String?
+    
     @Field(key: "name")
     var name: String
     
@@ -31,8 +34,9 @@ final class User: Model {
     // Inits
     init() {}
     
-    init(id: UUID? = nil, name: String, email: String, password: String) {
+    init(id: UUID? = nil, image: String? = nil, name: String, email: String, password: String) {
         self.id = id
+        self.image = image
         self.name = name
         self.email = email
         self.password = password

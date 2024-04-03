@@ -14,6 +14,7 @@ struct ModelsMigration_v0: AsyncMigration {
             .schema(User.schema)
             .id()
             .field("created_at", .string)
+            .field("image", .string)
             .field("name", .string, .required)
             .field("email", .string, .required)
             .field("password", .string, .required)
