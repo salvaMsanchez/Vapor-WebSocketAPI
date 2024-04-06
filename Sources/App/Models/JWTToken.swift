@@ -50,6 +50,7 @@ extension JWTToken {
     struct Public: Content {
         let accessToken: String
         let userName: String
+        let image: String
     }
 }
 

@@ -36,7 +36,7 @@ extension AuthController {
         let accessToken = JWTToken.generateToken(userID: user.id!)
         let accessSigned = try req.jwt.sign(accessToken)
         
-        return JWTToken.Public(accessToken: accessSigned, userName: user.name)
+        return JWTToken.Public(accessToken: accessSigned, userName: user.name, image: user.image ?? "")
     }
     
     func signIn(req: Request) async throws -> JWTToken.Public {
@@ -47,6 +47,6 @@ extension AuthController {
         let accessToken = JWTToken.generateToken(userID: user.id!)
         let accessSigned = try req.jwt.sign(accessToken)
         
-        return JWTToken.Public(accessToken: accessSigned, userName: user.name)
+        return JWTToken.Public(accessToken: accessSigned, userName: user.name, image: user.image ?? "")
     }
 }
