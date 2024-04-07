@@ -17,7 +17,7 @@ struct SearchController: RouteCollection {
 }
 
 extension SearchController {
-    func search(req: Request) async throws -> [Message] {
+    func search(req: Request) async throws -> [Message.Public] {
         guard let searchText: String = req.query["search"] else {
             throw Abort(.badRequest)
         }
@@ -31,8 +31,17 @@ extension SearchController {
         let matchedMessages: [Message] = allMessages.filter { smartSearchMatcher.matches($0.message) }
 //        let matchedProfiles: [Message] = allMessages.filter { smartSearchMatcher.matches($0.userName) }
         
+        let publicMessages: [Message.Public] = try matchedMessages.map { message in
+            guard let id = message.id,
+                  let airedAt = message.airedAt
+            else {
+                throw Abort(.expectationFailed, reason: "Id, date or userId message not found")
+            }
+            return Message.Public(id: id, type: message.type, message: message.message, airedAt: airedAt, user: message.$user.id)
+        }
+        
 //        return matchedMessages + matchedProfiles
-        return matchedMessages
+        return publicMessages
     }
 }
 

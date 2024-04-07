@@ -39,22 +39,24 @@ extension WebSocketController {
     func onUpdated(_ ws: WebSocket, on req: Request) {
         ws.onBinary { ws, byteBuffer in
             do {
+                // Decode message from byteBuffer
                 let decoder = JSONDecoder()
                 let publicMessage = try decoder.decode(Message.Public.self, from: byteBuffer)
-//                print("AQUÍ LLEGO ------ \(publicMessage.user.email)")
                 
-//                let message: Message = .init(id: publicMessage.id, type: publicMessage.type, message: publicMessage.message, airedAt: publicMessage.airedAt)
-//                let user: User = .init(image: publicMessage.user.image, name: publicMessage.user.name, email: publicMessage.user.email, password: "")
+                let message: Message = .init(id: publicMessage.id, type: publicMessage.type, message: publicMessage.message, airedAt: publicMessage.airedAt, userID: publicMessage.user)
 
                 // Save on DB
-//                try await message.create(on: req.db)
-                print("AQUÍ LLEGO ------")
+                try await message.create(on: req.db)
                 
-//                try await message.$users.attach([user], on: req.db)
+                // Encode message from byteBuffer
+                let encoder = JSONEncoder()
+                let data = try encoder.encode(message)
+                var buffer = ByteBufferAllocator().buffer(capacity: data.count)
+                buffer.writeBytes(data)
 
-                self.sendToAll(byteBuffer)
+                self.sendToAll(buffer)
             } catch {
-                print(error)
+                print(String(reflecting: error))
             }
         }
     }
