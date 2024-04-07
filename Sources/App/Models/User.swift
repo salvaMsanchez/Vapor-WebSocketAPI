@@ -19,7 +19,7 @@ final class User: Model {
     @Timestamp(key: "created_at", on: .create, format: .iso8601)
     var createdAt: Date?
     
-    @Field(key: "image")
+    @OptionalField(key: "image")
     var image: String?
     
     @Field(key: "name")
@@ -30,6 +30,12 @@ final class User: Model {
     
     @Field(key: "password")
     var password: String
+    
+    @Children(for: \.$user)
+    var messages: [Message]
+    
+//    @Siblings(through: UserMessagePivot.self, from: \.$user, to: \.$message)
+//    var messages: [Message]
     
     // Inits
     init() {}
@@ -60,7 +66,9 @@ extension User {
     
     struct Public: Content {
         let id: UUID?
-        let name: String
+    }
+    
+    struct Email: Content {
         let email: String
     }
 }

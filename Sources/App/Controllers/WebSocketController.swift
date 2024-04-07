@@ -40,21 +40,21 @@ extension WebSocketController {
         ws.onBinary { ws, byteBuffer in
             do {
                 let decoder = JSONDecoder()
-                let decodedData = try decoder.decode(Message.self, from: byteBuffer)
-//                print("---")
-//                print("ID: \(decodedData.id)")
-//                print("USERNAME: \(decodedData.userName)")
-//                print("TYPE: \(decodedData.type)")
-//                print("MESSAGE: \(decodedData.message)")
-//                print("TIMESTAMP: \(decodedData.airedAt)")
-//                print("---")
+                let publicMessage = try decoder.decode(Message.Public.self, from: byteBuffer)
+//                print("AQUÍ LLEGO ------ \(publicMessage.user.email)")
+                
+//                let message: Message = .init(id: publicMessage.id, type: publicMessage.type, message: publicMessage.message, airedAt: publicMessage.airedAt)
+//                let user: User = .init(image: publicMessage.user.image, name: publicMessage.user.name, email: publicMessage.user.email, password: "")
 
                 // Save on DB
-                try await decodedData.create(on: req.db)
+//                try await message.create(on: req.db)
+                print("AQUÍ LLEGO ------")
+                
+//                try await message.$users.attach([user], on: req.db)
 
                 self.sendToAll(byteBuffer)
             } catch {
-                print("Error al convertir desde Data: \(error)")
+                print(error)
             }
         }
     }

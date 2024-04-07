@@ -5,6 +5,7 @@
 //  Created by Salva Moreno on 30/3/24.
 //
 
+import Foundation
 import Vapor
 import JWT
 
@@ -49,8 +50,6 @@ struct JWTToken: Content, JWTPayload, Authenticatable {
 extension JWTToken {
     struct Public: Content {
         let accessToken: String
-        let userName: String
-        let image: String
     }
 }
 

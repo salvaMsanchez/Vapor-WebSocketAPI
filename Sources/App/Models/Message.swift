@@ -21,9 +21,6 @@ final class Message: Model, Content, Decodable {
     @ID(key: .id)
     var id: UUID?
     
-    @Field(key: "username")
-    var userName: String
-    
     @Field(key: "type")
     var type: MessageType.RawValue
     
@@ -33,14 +30,30 @@ final class Message: Model, Content, Decodable {
     @Timestamp(key: "aired_at", on: .none, format: .iso8601)
     var airedAt: Date?
     
+    @Parent(key: "user_id")
+    var user: User
+    
+//    @Siblings(through: UserMessagePivot.self, from: \.$message, to: \.$user)
+//    var users: [User]
+    
     // Inits
     init() {}
     
-    init(id: UUID? = nil, userName: String, type: MessageType.RawValue, message: String, airedAt: Date?) {
+    init(id: UUID? = nil, type: MessageType.RawValue, message: String, airedAt: Date?, userID: User.IDValue) {
         self.id = id
-        self.userName = userName
         self.type = type
         self.message = message
         self.airedAt = airedAt
+        self.$user.id = userID
+    }
+}
+
+extension Message {
+    struct Public: Content {
+        let id: UUID
+        let type: MessageType.RawValue
+        let message: String
+        let airedAt: Date?
+        let user: User.IDValue
     }
 }

@@ -29,9 +29,10 @@ extension SearchController {
         let allMessages: [Message] = try await Message.query(on: req.db).sort(\.$airedAt, .descending).all()
         
         let matchedMessages: [Message] = allMessages.filter { smartSearchMatcher.matches($0.message) }
-        let matchedProfiles: [Message] = allMessages.filter { smartSearchMatcher.matches($0.userName) }
+//        let matchedProfiles: [Message] = allMessages.filter { smartSearchMatcher.matches($0.userName) }
         
-        return matchedMessages + matchedProfiles
+//        return matchedMessages + matchedProfiles
+        return matchedMessages
     }
 }
 
