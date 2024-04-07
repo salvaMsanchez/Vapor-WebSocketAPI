@@ -64,12 +64,18 @@ extension User {
         }
     }
     
-    struct Public: Content {
+    struct Id: Content {
         let id: UUID?
     }
     
-    struct Email: Content {
+    struct Email: Decodable {
         let email: String
+    }
+    
+    struct Public: Content {
+        let userName: String
+        let email: String
+        let image: String?
     }
 }
 
