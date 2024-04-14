@@ -143,7 +143,7 @@ Permiten una comunicación en tiempo real entre los clientes y el servidor. Esto
 
 Con los WebSockets integrados en esta API, los usuarios pueden enviar tanto texto como imágenes de manera eficiente. Esto permite una amplia gama de casos de uso, desde la mensajería instantánea hasta la transmisión de contenido multimedia en tiempo real. Los mensajes de texto y las imágenes se transmiten de manera fluida y sin problemas, proporcionando una experiencia de usuario sin interrupciones.
 
-Puntualizar que para el envío de imágenes nos debemos apoyar, en primer lugar, en un *endpoint* que se encargue de subir la imagen al servidor, que esta sea guardada (en Vapor, en la carpeta `Public`) y que devuelva la dirección donde se ha guardado para poder acceder a ella; y, a continuación, ya en la parte de cliente hacer uso de la comunicación WebSockets para notificar al resto que se ha subido una imagen.
+Puntualizar que para el envío de imágenes nos debemos apoyar, en primer lugar, en un *endpoint* que se encargue de subir la imagen al servidor, que esta sea guardada (en Vapor, en la carpeta `Public`) y que devuelva la dirección donde se ha guardado para poder acceder a ella; y, a continuación, ya en la parte de cliente hacer uso de la comunicación WebSockets para notificar al resto que se ha subido una imagen en una dirección concreta o de llamadas a *endpoints* que puedan ejecutar determinadas acciones con la dirección de la imagen en el servidor como, por ejemplo, guardarla en base de datos.
 
 <a name="implementacion"></a>
 #### Implementación sencilla
@@ -347,7 +347,7 @@ El middleware `APIKeyMiddleware` garantiza que todas las solicitudes incluyan un
 <a name="controller"></a>
 #### Controlador de Autenticación
 
-El `AuthController` maneja las solicitudes relacionadas con la autenticación de usuarios. Contiene métodos para registrarse, iniciar sesión y actualizar tokens de acceso.
+El `AuthController` maneja las solicitudes relacionadas con la autenticación de usuarios. Contiene métodos para registrarse e iniciar sesión.
 
 <a name="routes"></a>
 #### Rutas
