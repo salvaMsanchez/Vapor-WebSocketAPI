@@ -29,18 +29,10 @@ struct ModelsMigration_v0: AsyncMigration {
             .field("aired_at", .string)
             .field("user_id", .uuid, .required, .references(User.schema, "id"))
             .create()
-        
-//        try await database
-//            .schema(UserMessagePivot.schema)
-//            .id()
-//            .field("user_id", .uuid, .required, .references(User.schema, "id"))
-//            .field("message_id", .uuid, .required, .references(Message.schema, "id"))
-//            .create()
     }
     
     func revert(on database: Database) async throws {
         try await database.schema(User.schema).delete()
         try await database.schema(Message.schema).delete()
-//        try await database.schema(UserMessagePivot.schema).delete()
     }
 }

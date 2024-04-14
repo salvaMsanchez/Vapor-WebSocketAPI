@@ -34,9 +34,6 @@ final class User: Model {
     @Children(for: \.$user)
     var messages: [Message]
     
-//    @Siblings(through: UserMessagePivot.self, from: \.$user, to: \.$message)
-//    var messages: [Message]
-    
     // Inits
     init() {}
     

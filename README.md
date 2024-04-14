@@ -35,7 +35,14 @@
 		* [Implementación sencilla](#implementacion)
 		* [Documentación](#documentacion)
 	* [Endpoints](#endpoints)
+		* [Sign Up](#signUp)
+		* [Sign In](#signIn)
+		* [Get User ID](#userId)
+		* [Get User Info by ID](#userInfo)
 		* [All Messages](#allMessages)
+		* [Search](#search)
+		* [Upload Photo](#uploadPhoto)
+		* [Save URL Profile Photo](#urlPhoto)
 	* [Autenticación](#autenticacion)
 		* [Modelos y DTOs](#modelos)
 		* [Middleware](#middleware)
@@ -149,10 +156,170 @@ La implementación de WebSockets en esta API se ha simplificado para facilitar s
 Para obtener más información sobre cómo utilizar los WebSockets en Vapor, invito a consultar la [documentación oficial](https://docs.vapor.codes/es/advanced/websockets/), con la que he ido desarrollando su implementación.
 
 <a name="endpoints"></a>
-### Endpoints 
+### Endpoints
+
+<a name="signUp"></a>
+#### Sign Up
+
+* **Descripción:** permite a los usuarios registrarse en la aplicación.
+* **URL:** `<API_URL>/api/v1/auth/signup`
+* **Método:** POST
+* **Headers:**
+	* `Websockets-ApiKey`: API_KEY
+* **Body:**
+	* `name`: nombre del usuario
+	* `email`: correo electrónico del usuario
+	* `password`: contraseña del usuario
+* **Respuesta:**
+
+	```json
+	{
+  		"accessToken": "<accessToken>"
+	}
+	``` 
+
+<a name="signIn"></a>
+#### Sign In
+
+* **Descripción:** permite a los usuarios iniciar sesión en la aplicación.
+* **URL:** `<API_URL>/api/v1/auth/signin`
+* **Método:** GET
+* **Headers:**
+	* `Websockets-ApiKey`: API_KEY
+	* `Authorization`: Basic Auth + email + password
+* **Respuesta:**
+
+	```json
+	{
+  		"accessToken": "<accessToken>"
+	}
+	```
+
+<a name="userId"></a>
+#### Get User ID
+
+* **Descripción:** permite obtener el ID del usuario extraído de la base de datos.
+* **URL:** `<API_URL>/api/v1/user/id`
+* **Método:** GET
+* **Headers:**
+	* `Websockets-ApiKey`: API_KEY
+	* `Authorization`: Bearer + Access Token
+	* `Email`: email del usuario
+* **Respuesta:**
+
+	```json
+	{
+  		"id": "<userId>"
+	}
+	```
+
+<a name="userInfo"></a>
+#### Get User Info by ID
+
+* **Descripción:** permite obtener de la base de datos la información esencial de perfil del usuario: email, nombre de usuario y la imagen de perfil en el caso de tener una guardada.
+* **URL:** `<API_URL>/api/v1/user/info/:id`
+* **Método:** GET
+* **Headers:**
+	* `Websockets-ApiKey`: API_KEY
+	* `Authorization`: Bearer + Access Token
+* **Respuesta:**
+
+	```json
+	{
+  		"email": "<email>",
+  		"userName": "<userName>",
+  		"image": "<profileImage>" // Opcional
+	}
+	```
 
 <a name="allMessages"></a>
 #### All Messages
+
+* **Descripción:** obtención de todos los mensajes guardados en base de datos y ordenados de menor a mayor en función a su fecha de publicación.
+* **URL:** `<API_URL>/api/v1/messages`
+* **Método:** GET
+* **Headers:**
+	* `Websockets-ApiKey`: API_KEY
+	* `Authorization`: Bearer + Access Token
+* **Respuesta:**
+
+	```json
+	[
+		{
+	  		"id": "<messageId>",
+	  		"message": "<message>",
+	  		"airedAt": "<publicationDate>",
+	  		"type": "<messageType>",
+	  		"user": "<userId>" // User Foreign Key
+		},
+		
+		// ...
+	]
+	```
+
+<a name="search"></a>
+#### Search
+
+* **Descripción:** permite hacer búsquedas de mensajes que contienen la *query* introducida en la llamada como parámetro.
+* **URL:** `<API_URL>/api/v1/search`
+* **Método:** GET
+* **Headers:**
+	* `Websockets-ApiKey`: API_KEY
+	* `Authorization`: Bearer + Access Token
+* **URL Params:**
+	* `search`: texto a buscar entre los mensajes guardados.
+* **Respuesta:**
+
+	```json
+	[
+		{
+	  		"id": "<messageId>",
+	  		"message": "<message>",
+	  		"airedAt": "<publicationDate>",
+	  		"type": "<messageType>",
+	  		"user": "<userId>" // User Foreign Key
+		},
+		
+		// ...
+	]
+	```
+	
+<a name="uploadPhoto"></a>
+#### Upload Photo
+
+* **Descripción:** permite guardar una imagen en la carpeta pública del servidor.
+* **URL:** `<API_URL>/api/v1/photo/upload`
+* **Método:** POST
+* **Headers:**
+	* `Websockets-ApiKey`: API_KEY
+	* `Authorization`: Bearer + Access Token
+* **URL Params:**
+	* `type`: sección desde la que se envía la imagen. En este caso, desde el muro de publicaciones (`wall`) o desde el perfil del usuario (`profile`). Sirve, además, para clasificar las imágenes en carpetas según el tipo indicado.
+* **Body:**
+	* Enviar la imagen en formato `Data`.
+* **Respuesta:**
+
+	```json
+	"<imageURL>"
+	```
+
+<a name="urlPhoto"></a>
+#### Save URL Profile Photo
+
+* **Descripción:** permite guardar en base de datos la dirección de la imagen previamente guardada. En este caso, está destinado a guardar la dirección de la imagen de perfil del usuario.
+* **URL:** `<API_URL>/api/v1/photo/profile`
+* **Método:** POST
+* **Headers:**
+	* `Websockets-ApiKey`: API_KEY
+	* `Authorization`: Bearer + Access Token
+* **Body:**
+	* `email`: correo electrónico del usuario.
+	* `image`: dirección de la imagen en el servidor.
+* **Respuesta:**
+
+	```json
+	"Photo saved successfully"
+	```
 
 <a name="autenticacion"></a>
 ### Autenticación

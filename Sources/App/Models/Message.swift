@@ -33,9 +33,6 @@ final class Message: Model, Content, Decodable {
     @Parent(key: "user_id")
     var user: User
     
-//    @Siblings(through: UserMessagePivot.self, from: \.$message, to: \.$user)
-//    var users: [User]
-    
     // Inits
     init() {}
     
