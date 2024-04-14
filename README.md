@@ -60,7 +60,7 @@
 
 Proyecto personal que se centra en el desarrollo de una API REST que integra WebSockets para la transmisión bidireccional de datos en tiempo real. Está desarrollada en Vapor, un framework Swift para la creación de aplicaciones web y servicios.
 
-Además, posee diversos *endpoints* destinados a la autenticación de usuarios, búsqueda en base de datos en función a un texto dado y obtención de información acerca de un usuario registrado concreto.
+Además, posee diversos *endpoints* destinados a la autenticación de usuarios, búsqueda en base de datos en función a un texto dado, gestión de subida y almacenamiento de imágenes, y obtención de información acerca de un usuario registrado concreto.
 
 Por otro lado, debemos destacar el uso de la relación 1:n para relacionar usuarios con mensajes enviados por los mismos.
 
@@ -70,6 +70,7 @@ Su uso está pensado para ser empleada en una **aplicación de mensajería insta
 #### Características principales
 
 * **WebSockets:** uso de WebSockets para permitir la transmisión instantánea de texto e imágenes entre clientes y el servidor. Esto ofrece una experiencia dinámica y en tiempo real para los usuarios de la aplicación, permitiéndoles enviar y recibir texto o imágenes de manera rápida y eficiente.
+* **Gestión y almacenamiento de imágenes en el servidor:** control en la descompresión de las imágenes al ser recibidas en llamada en formato `Data`, así como su almacenamiento en la parte pública del servidor para que puedan ser accesibles y descargadas en la parte de cliente.
 * **Endpoint de Búsqueda:** se incluye un *endpoint* de búsqueda sencillo que utiliza la base de datos PostgreSQL para buscar mensajes de texto almacenados. Esto proporciona a los usuarios la capacidad de buscar contenido específico dentro de la base de datos y recuperar resultados de manera rápida y precisa.
 * **Fluent:** se usa Fluent, el ORM de Vapor, para manejar modelos de datos, definir relaciones entre ellos, realizar transacciones de bases de datos, ejecutar migraciones y realizar consultas complejas de manera eficiente.
 * **Seguridad con JWT:** se ha desarrollado la autenticación y autorización utilizando JSON Web Tokens (JWT) para proteger los endpoints sensibles de la API. Se ha configurado el proyecto pensando en garantizar la seguridad de los datos, aplicando medidas de seguridad en los endpoints según sea necesario.
