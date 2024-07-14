@@ -64,7 +64,7 @@ Además, posee diversos *endpoints* destinados a la autenticación de usuarios, 
 
 Por otro lado, debemos destacar el uso de la relación 1:n para relacionar usuarios con mensajes enviados por los mismos.
 
-Su uso está pensado para ser empleada en una **aplicación de mensajería instantánea**. 🚨 Próximamente subiré su uso tanto en una app nativa en iOS como en Android.
+‼️ Su uso está pensado para ser empleada en una **aplicación de mensajería instantánea**. Un ejemplo de uso se puede ver en [este proyecto personal albergado en mi GitHub](https://github.com/salvaMsanchez/iOS-WebSocketsApp).
 
 <a name="caracteristicas"></a>
 #### Características principales
